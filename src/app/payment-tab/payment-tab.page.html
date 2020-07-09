@@ -1,0 +1,92 @@
+<ion-content class="">
+  <form [formGroup]="paymentForm" class="list-form">
+    <div class="checkout-container">
+
+      <!-- Top Reset Action -->
+      <div class="ion-text-start">
+        <ion-button type="reset" color="light" (click)="onReset()">
+          <ion-label>Reset</ion-label>
+          <ion-icon slot="end" name="close"></ion-icon>
+        </ion-button>
+      </div>
+
+
+      <!--Validation When Submit the form -->
+      <p *ngIf="isValidForm == false">
+        <ion-text color="danger">
+          Please fix all the errors.
+        </ion-text>
+      </p>
+
+
+      <!-- Payment Method section -->
+      <ion-card class="ion-no-padding ion-no-margin ion-margin-vertical">
+        <ion-card-header class="ion-margin-horizontal">
+          <ion-card-title>Payment Method</ion-card-title>
+        </ion-card-header>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col size="9" size-sm>
+              <ion-item class="">
+                <ion-label class="required" position="floating">Card Number</ion-label>
+                <ion-input inputmode="numeric" maxlength="16" minlength="16" placeholder="####-####-####-####"
+                  formControlName="cardNumber"></ion-input>
+              </ion-item>
+              <div
+                *ngIf="paymentForm.get('cardNumber').hasError('required') && ( paymentForm.get('cardNumber').dirty || paymentForm.get('cardNumber').touched )">
+                Field is required
+              </div>
+              <div *ngIf="paymentForm.get('cardNumber').hasError('minlength') &&  paymentForm.get('cardNumber').dirty">
+                Invalid format
+              </div>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="9" size-sm>
+              <ion-item>
+                <ion-label class="required" position="floating">Expiry date</ion-label>
+                <ion-datetime displayFormat="MMMM YYYY" pickerFormat="MMM YYYY" formControlName="expiryDate">
+                </ion-datetime>
+              </ion-item>
+              <div @requiredTrigger
+                *ngIf="!paymentForm.get('expiryDate').valid && ( paymentForm.get('expiryDate').dirty || paymentForm.get('expiryDate').touched )">
+                Field is required
+              </div>
+            </ion-col>
+            <ion-col size="9" size-sm>
+              <ion-item class="">
+                <ion-label class="required" position="floating">CVV</ion-label>
+                <ion-input inputmode="numeric" type="tel" maxlength="3" minlength="3" formControlName="cvv"></ion-input>
+              </ion-item>
+              <div @requiredTrigger
+                *ngIf="!paymentForm.get('cvv').valid && ( paymentForm.get('cvv').dirty || paymentForm.get('cvv').touched )">
+                Field is required
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card>
+
+      
+      <!-- Bottom Action | Previous | Next -->
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col class="ion-text-start">
+            <ion-button type="button" color="light" (click)="onPrevious()">
+              <ion-label>Previous</ion-label>
+              <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+          <ion-col class="ion-text-end">
+            <ion-button type="submit" color="tertiary" (click)="onSubmit()">
+              <ion-label>Next</ion-label>
+              <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </div>
+  </form>
+</ion-content>

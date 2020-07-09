@@ -1,0 +1,235 @@
+<ion-content>
+  <div class="checkout-container">
+    <h1>
+      <strong>
+        Review
+      </strong>
+    </h1>
+
+    <!-- Delivery Section -->
+    <ion-list>
+      <ion-list-header class="ion-no-padding">
+        <h4>
+          <strong>
+            Delivery
+          </strong>
+        </h4>
+      </ion-list-header>
+
+      <ion-grid>
+        <!-- Include 2 cols [caption - details] -->
+        <ion-row>
+          <!-- caption col -->
+          <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+            <strong>
+              Billing Address:
+            </strong>
+          </ion-col>
+          <!-- details col -->
+          <ion-col size-xs="6" size-md="8" size-xl="10">
+            <ion-text class="ion-text-wrap">
+              {{reviewData?.deliveryForm.model.billingAddress.firstName}} {{reviewData?.deliveryForm.model.billingAddress.lastName}}
+            </ion-text><br>
+            <ion-text>
+              {{reviewData?.deliveryForm.model.billingAddress.addressLine1}} {{reviewData?.deliveryForm.model.billingAddress.addressLine2}}
+            </ion-text><br>
+            <ion-text>
+              {{reviewData?.deliveryForm.model.billingAddress.city}}, {{reviewData?.deliveryForm.model.billingAddress.state}}, {{reviewData?.deliveryForm.model.billingAddress.country}}
+            </ion-text><br>
+            <ion-text>
+              {{reviewData?.deliveryForm.model.billingAddress.postalCode}}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+
+        <!-- Include 2 cols [caption - details] -->
+        <ion-row>
+          <!-- caption col -->
+          <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+            <strong>
+              Shipping Address:
+            </strong>
+          </ion-col>
+          <!-- details col -->
+          <ion-col size-xs="6" size-md="8" size-xl="10">
+            <ng-template [ngIf]="reviewData?.deliveryForm.model.isShippingSame == false">
+            <ion-text>
+              {{reviewData?.deliveryForm.model.shippingAddress.firstName}} {{reviewData?.deliveryForm.model.shippingAddress.lastName}}
+            </ion-text><br>
+            <ion-text>
+              {{reviewData?.deliveryForm.model.shippingAddress.addressLine1}} {{reviewData?.deliveryForm.model.shippingAddress.addressLine2}}
+            </ion-text><br>
+            <ion-text>
+              {{reviewData?.deliveryForm.model.shippingAddress.city}}, {{reviewData?.deliveryForm.model.shippingAddress.state}}, {{reviewData?.deliveryForm.model.shippingAddress.country}}
+            </ion-text><br>
+            <ion-text>
+              {{reviewData?.deliveryForm.model.shippingAddress.postalCode}}
+            </ion-text>
+          </ng-template>
+          <ng-template [ngIf]="reviewData?.deliveryForm.model.isShippingSame == true">
+            <ion-text >
+              My shipping address is same as my billing address.
+            </ion-text>
+          </ng-template>
+          </ion-col>
+        </ion-row>
+
+        <!-- Include 2 cols [caption - details] -->
+        <ion-row>
+          <!-- caption col -->
+          <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+            <strong>
+              Email:
+            </strong>
+          </ion-col>
+          <!-- details col -->
+          <ion-col size-xs="6" size-md="8" size-xl="10">
+            <ion-text class="ion-text-wrap">
+              {{reviewData?.deliveryForm.model.account.email}}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+
+    <!-- Shipping Section -->
+    <ion-list>
+      <ion-list-header class="ion-no-padding">
+        <h4>
+          <strong>
+            Shipping
+          </strong>
+        </h4>
+      </ion-list-header>
+
+      <ion-text *ngIf="reviewData?.shippingForm.model.method == 1">
+        FREE Shipping: get it by Mon, Jul 13 - Wed, Jul 15
+      </ion-text>
+      <ion-text *ngIf="reviewData?.shippingForm.model.method == 2">
+        $5.99 Standard Shipping: get it by Sun, Jul 12
+      </ion-text>
+      <ion-text *ngIf="reviewData?.shippingForm.model.method == 3">
+        $8.99 Two-Day Shipping: get it by Fri, Jul 10
+      </ion-text>
+
+      <ion-card class="ion-no-margin ion-margin-vertical" *ngIf="reviewData?.shippingForm.model.isGift">
+        <ion-card-header>
+          <ion-card-title><strong>Item is a gift</strong></ion-card-title>
+        </ion-card-header>
+
+        <ion-grid>
+          <!-- Include 2 cols [caption - details] -->
+          <ion-row>
+            <!-- caption col -->
+            <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+              <strong>
+                Include gift receipt:
+              </strong>
+            </ion-col>
+            <!-- details col -->
+            <ion-col size-xs="6" size-md="8" size-xl="10">
+              <ion-icon name="checkmark-outline" *ngIf="reviewData?.shippingForm.model.giftOptions.includeGiftRecipt"></ion-icon>
+              <ion-icon name="close-outline" *ngIf="!reviewData?.shippingForm.model.giftOptions.includeGiftRecipt"></ion-icon>
+            </ion-col>
+          </ion-row>
+          <!-- Include 2 cols [caption - details] -->
+          <ion-row>
+            <!-- caption col -->
+            <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+              <strong>
+                Recipient Name:
+              </strong>
+            </ion-col>
+            <!-- details col -->
+            <ion-col size-xs="6" size-md="8" size-xl="10">
+              <ion-text class="ion-text-wrap" *ngIf="reviewData?.shippingForm.model.giftOptions.name">
+                {{reviewData?.shippingForm.model.giftOptions.name}}
+              </ion-text>
+              <ion-text class="ion-text-wrap" *ngIf="!reviewData?.shippingForm.model.giftOptions.name">
+                /
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- Include 2 cols [caption - details] -->
+          <ion-row>
+            <!-- caption col -->
+            <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+              <strong>
+                Custom Message:
+              </strong>
+            </ion-col>
+            <!-- details col -->
+            <ion-col size-xs="6" size-md="8" size-xl="10">
+              <ion-text class="ion-text-wrap" *ngIf="reviewData?.shippingForm.model.giftOptions.message">
+                {{reviewData?.shippingForm.model.giftOptions.message}}
+              </ion-text>
+              <ion-text class="ion-text-wrap" *ngIf="!reviewData?.shippingForm.model.giftOptions.message">
+                /
+              </ion-text>
+            </ion-col>
+          </ion-row>
+          <!-- Include 2 cols [caption - details] -->
+          <ion-row>
+            <!-- caption col -->
+            <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+              <strong>
+                Add gift wrap:
+              </strong>
+            </ion-col>
+            <!-- details col -->
+            <ion-col size-xs="6" size-md="8" size-xl="10">
+              <ion-icon name="checkmark-outline" *ngIf="reviewData?.shippingForm.model.giftOptions.wrap"></ion-icon>
+              <ion-icon name="close-outline" *ngIf="!reviewData?.shippingForm.model.giftOptions.wrap"></ion-icon>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card>
+    </ion-list>
+
+
+    <!-- Payment Section -->
+    <ion-list>
+      <ion-list-header class="ion-no-padding">
+        <h4>
+          <strong>
+            Payment
+          </strong>
+        </h4>
+      </ion-list-header>
+
+      <ion-grid>
+        <!-- Include 2 cols [caption - details] -->
+        <ion-row>
+          <!-- caption col -->
+          <ion-col size-xs="6" size-md="4" size-xl="2" class="ion-text-end">
+            <strong>
+              Card Number:
+            </strong>
+          </ion-col>
+          <!-- details col -->
+          <ion-col size-xs="6" size-md="8" size-xl="10">
+            <ion-text class="ion-text-wrap">
+              {{reviewData?.paymentForm.model.cardNumber}}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-list>
+
+
+     <!-- Bottom Action | Restart -->
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-button type="button" color="tertiary" (click)="onRestart()">
+            <ion-label>Restart</ion-label>
+            <ion-icon slot="end" name="reload-outline"></ion-icon>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+  </div>
+</ion-content>

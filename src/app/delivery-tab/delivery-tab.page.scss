@@ -1,0 +1,15 @@
+ion-label.required::after {
+    content: " *";
+}
+
+.item-has-focus{
+    ion-label.required::after {
+        content: " *";
+        color: red;
+    }
+}
+
+.alert-danger{
+    opacity: 1;
+    transform: translateY(0%);
+}

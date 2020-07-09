@@ -1,0 +1,339 @@
+<ion-content class="">
+  <form [formGroup]="deliveryForm" class="list-form">
+    <div class="checkout-container">
+
+      <!-- Top Reset Action -->
+      <div class="ion-text-start">
+        <ion-button color="light" (click)="onReset()">
+          <ion-label>Reset</ion-label>
+          <ion-icon slot="end" name="close"></ion-icon>
+        </ion-button>
+      </div>
+
+
+      <!--Validation When Submit the form -->
+      <p *ngIf="isValidForm == false">
+        <ion-text color="danger">
+          Please fix all the errors.
+        </ion-text>
+      </p>
+
+
+      <!-- Biling Address section -->
+      <div formGroupName="billingAddress">
+        <ion-card class="ion-no-padding ion-no-margin ion-margin-vertical">
+          <ion-card-header class="ion-margin-horizontal">
+            <ion-card-title>Billing Address</ion-card-title>
+          </ion-card-header>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">First Name</ion-label>
+                  <ion-input formControlName="firstName"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('billingAddress')['controls'].firstName.valid && ( deliveryForm.get('billingAddress')['controls'].firstName.dirty || deliveryForm.get('billingAddress')['controls'].firstName.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Last Name</ion-label>
+                  <ion-input formControlName="lastName"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('billingAddress')['controls'].lastName.valid && ( deliveryForm.get('billingAddress')['controls'].lastName.dirty || deliveryForm.get('billingAddress')['controls'].lastName.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Address Line 1</ion-label>
+                  <ion-input formControlName="addressLine1"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('billingAddress')['controls'].addressLine1.valid && ( deliveryForm.get('billingAddress')['controls'].addressLine1.dirty || deliveryForm.get('billingAddress')['controls'].addressLine1.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-item class="">
+                  <ion-label position="floating">Address Line 2</ion-label>
+                  <ion-input formControlName="addressLine2"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">City / District</ion-label>
+                  <ion-input formControlName="city"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('billingAddress')['controls'].city.valid && ( deliveryForm.get('billingAddress')['controls'].city.dirty || deliveryForm.get('billingAddress')['controls'].city.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Province / State</ion-label>
+                  <ion-input formControlName="state"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('billingAddress')['controls'].state.valid && ( deliveryForm.get('billingAddress')['controls'].state.dirty || deliveryForm.get('billingAddress')['controls'].state.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Country</ion-label>
+                  <ion-input formControlName="country"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('billingAddress')['controls'].country.valid && ( deliveryForm.get('billingAddress')['controls'].country.dirty || deliveryForm.get('billingAddress')['controls'].country.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Postal Code</ion-label>
+                  <ion-input inputmode="numeric" maxlength="5" formControlName="postalCode"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('billingAddress')['controls'].postalCode.valid && ( deliveryForm.get('billingAddress')['controls'].postalCode.dirty || deliveryForm.get('billingAddress')['controls'].postalCode.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </div>
+
+
+      <!--Is Same Check  -->
+      <ion-item lines="none">
+        <ion-checkbox (ionChange)="isSameOnChange($event)" formControlName="isShippingSame"></ion-checkbox>
+        <ion-label class="ion-text-wrap ion-margin-horizontal">
+          My shipping address is same as my billing address.
+        </ion-label>
+      </ion-item>
+
+
+      <!-- Shipping Address section -->
+      <div *ngIf="!deliveryForm.get('isShippingSame').value" formGroupName="shippingAddress">
+        <ion-card class="ion-no-padding ion-no-margin ion-margin-vertical">
+          <ion-card-header class="ion-margin-horizontal">
+            <ion-card-title>Shipping Address</ion-card-title>
+          </ion-card-header>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">First Name</ion-label>
+                  <ion-input formControlName="firstName"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('shippingAddress')['controls'].firstName.valid && ( deliveryForm.get('shippingAddress')['controls'].firstName.dirty || deliveryForm.get('shippingAddress')['controls'].firstName.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Last Name</ion-label>
+                  <ion-input formControlName="lastName"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('shippingAddress')['controls'].lastName.valid && ( deliveryForm.get('shippingAddress')['controls'].lastName.dirty || deliveryForm.get('shippingAddress')['controls'].lastName.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Address Line 1</ion-label>
+                  <ion-input formControlName="addressLine1"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('shippingAddress')['controls'].addressLine1.valid && ( deliveryForm.get('shippingAddress')['controls'].addressLine1.dirty || deliveryForm.get('shippingAddress')['controls'].addressLine1.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ion-row>
+              <ion-col>
+                <ion-item class="">
+                  <ion-label position="floating">Address Line 2</ion-label>
+                  <ion-input formControlName="addressLine2"></ion-input>
+                </ion-item>
+              </ion-col>
+            </ion-row>
+
+
+            <ion-row>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">City / District</ion-label>
+                  <ion-input formControlName="city"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('shippingAddress')['controls'].city.valid && ( deliveryForm.get('shippingAddress')['controls'].city.dirty || deliveryForm.get('shippingAddress')['controls'].city.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Province / State</ion-label>
+                  <ion-input formControlName="state"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('shippingAddress')['controls'].state.valid && ( deliveryForm.get('shippingAddress')['controls'].state.dirty || deliveryForm.get('shippingAddress')['controls'].state.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Country</ion-label>
+                  <ion-input formControlName="country"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('shippingAddress')['controls'].country.valid && ( deliveryForm.get('shippingAddress')['controls'].country.dirty || deliveryForm.get('shippingAddress')['controls'].country.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+              <ion-col size="9" size-sm>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Postal Code</ion-label>
+                  <ion-input inputmode="numeric" maxlength="5" formControlName="postalCode"></ion-input>
+                </ion-item>
+                <div @requiredTrigger
+                  *ngIf="!deliveryForm.get('shippingAddress')['controls'].postalCode.valid && ( deliveryForm.get('shippingAddress')['controls'].postalCode.dirty || deliveryForm.get('shippingAddress')['controls'].postalCode.touched )">
+                  Field is required
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+      </div>
+
+
+      <!-- Account Check new || guest -->
+      <ion-radio-group [value]="" (ionChange)="checkAccountOnChange($event)" formControlName="createAccount">
+        <ion-grid class="ion-no-padding">
+          <ion-row>
+            <ion-col size-xs="12" size-md="6" class="ion-text-start">
+              <ion-item lines="none">
+                <ion-radio value="new"></ion-radio>
+                <ion-label class="ion-margin-horizontal ">
+                  Create Account
+                </ion-label>
+              </ion-item>
+            </ion-col>
+            <ion-col size-xs="12" size-md="6" class="ion-text-start">
+              <ion-item lines="none">
+                <ion-radio value="guest"></ion-radio>
+                <ion-label class="ion-margin-horizontal ">
+                  Checkout as a Guest
+                </ion-label>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-radio-group>
+
+
+      <!-- Account fields section email | password -->
+      <div formGroupName="account">
+        <ion-card class="ion-no-padding ion-no-margin ion-margin-vertical">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-item class="">
+                  <ion-label class="required" position="floating">Email</ion-label>
+                  <ion-input formControlName="email"></ion-input>
+                </ion-item>
+                <div
+                  *ngIf="deliveryForm.get('account')['controls'].email.hasError('required') && ( deliveryForm.get('account')['controls'].email.dirty || deliveryForm.get('account')['controls'].email.touched )">
+                  Field is required
+                </div>
+                <div
+                  *ngIf="deliveryForm.get('account')['controls'].email.hasError('email') && deliveryForm.get('account')['controls'].email.dirty">
+                  Invalid format
+                </div>
+              </ion-col>
+            </ion-row>
+
+            <ng-template [ngIf]="deliveryForm.get('createAccount').value == 'new'">
+              <div class="form-group row" formGroupName="passwords">
+
+                <ion-row>
+                  <ion-col size="9" size-sm>
+                    <ion-item class="">
+                      <ion-label class="required" position="floating">Password</ion-label>
+                      <ion-input type="password" formControlName="newPassword"></ion-input>
+                    </ion-item>
+                    <div
+                      *ngIf="deliveryForm.get('account').get('passwords').get('newPassword').hasError('required') && ( deliveryForm.get('account').get('passwords').get('newPassword').dirty || deliveryForm.get('account').get('passwords').get('newPassword').touched )">
+                      Field is required
+                    </div>
+                    <div
+                      *ngIf="deliveryForm.get('account').get('passwords').get('newPassword').hasError('pattern') &&  deliveryForm.get('account').get('passwords').get('newPassword').dirty">
+                      Invalid format
+                    </div>
+                  </ion-col>
+                  <ion-col size="9" size-sm>
+                    <ion-item class="">
+                      <ion-label class="required" position="floating">Confirm Password</ion-label>
+                      <ion-input type="password" formControlName="confirmPassword"></ion-input>
+                    </ion-item>
+                    <div
+                      *ngIf="deliveryForm.get('account').get('passwords').get('confirmPassword').hasError('required') && ( deliveryForm.get('account').get('passwords').get('confirmPassword').dirty || deliveryForm.get('account').get('passwords').get('confirmPassword').touched )">
+                      Field is required
+                    </div>
+                    <div
+                      *ngIf="deliveryForm.get('account').get('passwords').hasError('invalid') && deliveryForm.get('account').get(['passwords','newPassword']).value != deliveryForm.get('account').get(['passwords','confirmPassword']).value && deliveryForm.get('account').get(['passwords','confirmPassword']).value != null && deliveryForm.get('account').get(['passwords','confirmPassword']).value != ''">
+                      Passwords must match
+                    </div>
+                  </ion-col>
+                </ion-row>
+
+                <ion-row>
+                  <ion-col>
+                    <ion-label>Minimum eight characters, at least one uppercase letter, one lowercase letter, one number
+                      and one
+                      special character (@$!%*#?&)</ion-label>
+                  </ion-col>
+                </ion-row>
+              </div>
+            </ng-template>
+
+          </ion-grid>
+        </ion-card>
+      </div>
+
+      
+      <!-- Bottom Action | Next -->
+      <ion-grid class="ion-no-padding">
+        <ion-row>
+          <ion-col class="ion-text-end">
+            <ion-button type="submit" color="tertiary" (click)="onSubmit()">
+              <ion-label>Next</ion-label>
+              <ion-icon slot="end" name="chevron-forward-outline"></ion-icon>
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </div>
+  </form>
+</ion-content>
